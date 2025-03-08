@@ -1,0 +1,99 @@
+\doxysection{Tower Class Reference}
+\hypertarget{struct_tower}{}\label{struct_tower}\index{Tower@{Tower}}
+Inheritance diagram for Tower\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{struct_tower}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_tower_a2148cb10f1c6b3bfc0975cea8136312a}\label{struct_tower_a2148cb10f1c6b3bfc0975cea8136312a} 
+{\bfseries Tower} (const std\+::string \&name, int cost, int refund\+Value, int range, int power, float rate\+Of\+Fire)
+\item 
+\Hypertarget{struct_tower_a948ba7130c5f79cbad6a502fab0c77f5}\label{struct_tower_a948ba7130c5f79cbad6a502fab0c77f5} 
+void {\bfseries set\+Position} (Vector2 pos)
+\item 
+\Hypertarget{struct_tower_a1bd37558ef7fbabec8ecadd1d75a522c}\label{struct_tower_a1bd37558ef7fbabec8ecadd1d75a522c} 
+Vector2 {\bfseries get\+Position} () const
+\item 
+\Hypertarget{struct_tower_a3a777ebc8fb2d719eef775e7dbe6a40e}\label{struct_tower_a3a777ebc8fb2d719eef775e7dbe6a40e} 
+virtual void {\bfseries attack} ()=0
+\item 
+\Hypertarget{struct_tower_a961fdb65a17f2a125a0649ef535eddb9}\label{struct_tower_a961fdb65a17f2a125a0649ef535eddb9} 
+virtual Tower\+Type {\bfseries get\+Tower\+Type} () const =0
+\item 
+\Hypertarget{struct_tower_ac732f3dd9c995a84da0ada08b8346f8f}\label{struct_tower_ac732f3dd9c995a84da0ada08b8346f8f} 
+virtual void {\bfseries upgrade} ()
+\item 
+\Hypertarget{struct_tower_a745bfcde4c8a6001640cd25fbe96d27d}\label{struct_tower_a745bfcde4c8a6001640cd25fbe96d27d} 
+virtual int {\bfseries sell} () const
+\item 
+\Hypertarget{struct_tower_a2fa5d720ba3e256cc84541e11bc71144}\label{struct_tower_a2fa5d720ba3e256cc84541e11bc71144} 
+std\+::string {\bfseries get\+Name} () const
+\item 
+\Hypertarget{struct_tower_a4a69796c3c65aeae2d42ef631d69eb6c}\label{struct_tower_a4a69796c3c65aeae2d42ef631d69eb6c} 
+int {\bfseries get\+Level} () const
+\item 
+\Hypertarget{struct_tower_a0e003f2b4fd235ac335db4803b1d3e4b}\label{struct_tower_a0e003f2b4fd235ac335db4803b1d3e4b} 
+int {\bfseries get\+Cost} () const
+\item 
+\Hypertarget{struct_tower_a01dffb67be8f538c6567019a1617a749}\label{struct_tower_a01dffb67be8f538c6567019a1617a749} 
+int {\bfseries get\+Refund\+Value} () const
+\item 
+\Hypertarget{struct_tower_aec46f3ace5aa79591e33b8b7355539c1}\label{struct_tower_aec46f3ace5aa79591e33b8b7355539c1} 
+int {\bfseries get\+Range} () const
+\item 
+\Hypertarget{struct_tower_aaf0768592e80f349b594792b15a7bc18}\label{struct_tower_aaf0768592e80f349b594792b15a7bc18} 
+int {\bfseries get\+Power} () const
+\item 
+\Hypertarget{struct_tower_a5f21cb79e026a7e268c67abf7a467475}\label{struct_tower_a5f21cb79e026a7e268c67abf7a467475} 
+float {\bfseries get\+Rate\+Of\+Fire} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_tower_a5ebfc0c79fc233eff52853fb19c7d08d}\label{struct_tower_a5ebfc0c79fc233eff52853fb19c7d08d} 
+Vector2 {\bfseries position}
+\item 
+\Hypertarget{struct_tower_ae2d60387da759260e1b5f06ddc2f3d91}\label{struct_tower_ae2d60387da759260e1b5f06ddc2f3d91} 
+float {\bfseries range}
+\item 
+\Hypertarget{struct_tower_ae1f3e1183342d104d397ad55835ad450}\label{struct_tower_ae1f3e1183342d104d397ad55835ad450} 
+float {\bfseries fire\+Rate}
+\item 
+\Hypertarget{struct_tower_a19b563d611a1fedf8a8fd4e82ad412fa}\label{struct_tower_a19b563d611a1fedf8a8fd4e82ad412fa} 
+float {\bfseries fire\+Cooldown}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_tower_a07bc554f7fe12ed3bde179a6a58d61e2}\label{struct_tower_a07bc554f7fe12ed3bde179a6a58d61e2} 
+std\+::string {\bfseries name}
+\item 
+\Hypertarget{struct_tower_a586375a39e6817983339b36225379da0}\label{struct_tower_a586375a39e6817983339b36225379da0} 
+int {\bfseries level}
+\item 
+\Hypertarget{struct_tower_ab9335fcdde6d382e76cef0698aebe00c}\label{struct_tower_ab9335fcdde6d382e76cef0698aebe00c} 
+int {\bfseries cost}
+\item 
+\Hypertarget{struct_tower_afaf0aff4b194cd5481fce125a09b7011}\label{struct_tower_afaf0aff4b194cd5481fce125a09b7011} 
+int {\bfseries refund\+Value}
+\item 
+\Hypertarget{struct_tower_a8c1dd7a852029643bd6246af21b2d52b}\label{struct_tower_a8c1dd7a852029643bd6246af21b2d52b} 
+int {\bfseries range}
+\item 
+\Hypertarget{struct_tower_a8241ca281b81ee71226f182bdb6710b9}\label{struct_tower_a8241ca281b81ee71226f182bdb6710b9} 
+int {\bfseries power}
+\item 
+\Hypertarget{struct_tower_a5e6c8b045d3e3e755ca28f274e37b30e}\label{struct_tower_a5e6c8b045d3e3e755ca28f274e37b30e} 
+float {\bfseries rate\+Of\+Fire}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/gevor/source/repos/\+COMP\+\_\+345\+\_\+\+Project/test\+Main.\+cpp\item 
+C\+:/\+Users/gevor/source/repos/\+COMP\+\_\+345\+\_\+\+Project/tower\+Logic.\+h\item 
+C\+:/\+Users/gevor/source/repos/\+COMP\+\_\+345\+\_\+\+Project/tower\+Logic.\+cpp\end{DoxyCompactItemize}

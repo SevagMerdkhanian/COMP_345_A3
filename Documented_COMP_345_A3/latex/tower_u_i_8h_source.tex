@@ -1,0 +1,29 @@
+\doxysection{tower\+UI.\+h}
+\hypertarget{tower_u_i_8h_source}{}\label{tower_u_i_8h_source}\index{C:/Users/gevor/source/repos/COMP\_345\_Project/towerUI.h@{C:/Users/gevor/source/repos/COMP\_345\_Project/towerUI.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TOWER\_UI\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ TOWER\_UI\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}towerLogic.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}raylib.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ UI\ class\ for\ drawing\ a\ single\ tower\ and\ its\ bullets.}}
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_tower_u_i}{TowerUI}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{comment}{//\ Draw\ a\ tower\ using\ raylib\ drawing\ functions.}}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{comment}{//\ The\ parameter\ cellSize\ is\ used\ to\ scale\ the\ tower\ drawing.}}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ drawTower(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_tower}{Tower}}*\ tower,\ \textcolor{keywordtype}{int}\ cellSize);}
+\DoxyCodeLine{00013\ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ UI\ Manager\ class\ that\ draws\ all\ towers\ from\ a\ TowerManager.}}
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_tower_u_i_manager}{TowerUIManager}}\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{comment}{//\ Draw\ all\ towers\ stored\ in\ the\ TowerManager.}}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{comment}{//\ cellSize\ is\ passed\ along\ for\ scaling.}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ drawTowers(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_tower_manager}{TowerManager}}\&\ towerManager,\ \textcolor{keywordtype}{int}\ cellSize);}
+\DoxyCodeLine{00021\ \};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ TOWER\_UI\_H}}
+
+\end{DoxyCode}
