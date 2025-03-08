@@ -15,9 +15,11 @@ int main(void)
     std::srand(std::time(0));
     //testMain(); 
     //towerMain();
-    TowerManager towerManager;
     TowerUIManager towerUIManager;
     CritterManager critterManager;
+    TowerManager::critterManager = &critterManager;
+    TowerManager towerManager;
+
     const int screenWidth = 500;
     const int screenHeight = 300;
     InitWindow(screenWidth, screenHeight, "Panel Input Example");
@@ -55,10 +57,12 @@ int main(void)
     while (!WindowShouldClose()) {
         
 
-        // Draw the UI
-        mapUI.drawUI();
-        // Update the UI
-        mapUI.updateUI();
+        //// Draw the UI
+        //mapUI.drawUI();
+        //// Update the UI
+        //mapUI.updateUI();
+        //mapUI.Update();
+        mapLogic.notifyObservers();
     }
     // Initialize UI
     mapUI.initUI();

@@ -36,11 +36,14 @@
     <ClCompile Include="size_query.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ObserverVec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObservableVec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="testMain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="towerLogic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -54,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="size_query.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverVec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObservableVec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

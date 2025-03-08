@@ -27,7 +27,7 @@ struct Bullet {
 // --------------------
 // Tower Base Class
 // --------------------
-class Tower {
+class Tower : public ObserverVec {
 protected:
     std::string name;
     int level;
@@ -46,10 +46,12 @@ public:
     Tower(const std::string& name, int cost, int refundValue, int range, int power, float rateOfFire);
     virtual ~Tower();
 
+    void Update() override;
+    
     // Position setters/getters
     void setPosition(Vector2 pos);
     Vector2 getPosition() const;
-
+    
     // Pure virtual functions for behavior
     virtual void attack() = 0;
     virtual TowerType getTowerType() const = 0;
@@ -113,19 +115,21 @@ public:
 // --------------------
 // TowerManager Class
 // --------------------
-class TowerManager {
+class TowerManager : public ObservableVec {
 private:
     std::vector<Tower*> towers;
 public:
+
+    static CritterManager* critterManager;
     TowerManager();
     ~TowerManager();
 
     // Add or remove towers
-    void addTower(Tower* tower);
-    void removeTower(int index);
+    void addTower(Tower* tower); // Attach
+    void removeTower(int index); // Detach
 
     // Call attack and update bullets on all towers
-    void updateTowers(CritterManager& critterManager, int cellSize);
+    void updateTowers(int cellSize); // Notify
 
     // Upgrade or sell a specific tower
     void upgradeTower(int index);
@@ -133,6 +137,7 @@ public:
 
     // Getter to access the towers (for UI rendering)
     const std::vector<Tower*>& getTowers() const;
+    
 
     // Debug: print info about towers
     void printTowers() const;

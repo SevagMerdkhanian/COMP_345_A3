@@ -2,15 +2,88 @@
 #include <cmath>
 #include <algorithm>
 
+
+CritterManager* TowerManager::critterManager;
+
+
 // ================== Tower Base Class Implementation ==================
+
 
 Tower::Tower(const std::string& name, int cost, int refundValue, int range, int power, float rateOfFire)
     : name(name), level(1), cost(cost), refundValue(refundValue),
     range(range), power(power), rateOfFire(rateOfFire) {
     position = { 0, 0 };
+
+    cooldownTimer = 0.0f;
 }
 
 Tower::~Tower() {}
+
+void Tower::Update() {
+    std::vector<CritterLogic*> critters = TowerManager::critterManager->getCritters();
+    int cellSize = 40;
+
+    float towerRangePixels = getRange() * cellSize;
+    Vector2 towerPos = getPosition();
+
+    // Find the closest critter within range.
+    CritterLogic* targetCritter = nullptr;
+    float minDistance = towerRangePixels;
+    for (CritterLogic* critter : critters) {
+        // Convert critter grid position to pixel position.
+        Vector2 critterPos = {
+            critter->getX() * (float)cellSize + cellSize / 2.0f,
+            critter->getY() * (float)cellSize + cellSize / 2.0f
+        };
+        float dx = towerPos.x - critterPos.x;
+        float dy = towerPos.y - critterPos.y;
+        float distance = sqrt(dx * dx + dy * dy);
+        if (distance <= towerRangePixels && distance < minDistance) {
+            targetCritter = critter;
+            minDistance = distance;
+        }
+    }
+
+    // If a critter is in range and the tower is ready to shoot, fire a bullet.
+    if (targetCritter && readyToShoot()) {
+        Vector2 targetPos = {
+            targetCritter->getX() * (float)cellSize + cellSize / 2.0f,
+            targetCritter->getY() * (float)cellSize + cellSize / 2.0f
+        };
+        shootAt(targetPos);
+        resetCooldown();
+    }
+
+    // Update bullets for this tower and check for collisions.
+    // Note: We need to modify the bullets; so we get a non-const reference.
+    std::vector<Bullet>& bullets = const_cast<std::vector<Bullet>&>(getBullets());
+    for (Bullet& bullet : bullets) {
+        if (bullet.active) {
+            // Bullet position is updated in tower->updateBullets(), but we can check collision here.
+            for (CritterLogic* critter : critters) {
+                Vector2 critterPos = {
+                    critter->getX() * (float)cellSize + cellSize / 2.0f,
+                    critter->getY() * (float)cellSize + cellSize / 2.0f
+                };
+                float dx = bullet.position.x - critterPos.x;
+                float dy = bullet.position.y - critterPos.y;
+                float distance = sqrt(dx * dx + dy * dy);
+
+                if (distance < 5.0f) { // collision threshold in pixels
+                    critter->minusHealth(bullet.damage);
+                    if (critter->isDead()) {
+
+                        TowerManager::critterManager->removeCritter(critter);
+                    }
+                    bullet.active = false;
+                    // (Optional) Check if critter is dead and remove it.
+                }
+            }
+        }
+    }
+    // Finally, update bullet positions (which also advances the cooldown internally).
+    updateBullets();
+}
 
 void Tower::setPosition(Vector2 pos) {
     position = pos;
@@ -148,100 +221,42 @@ TowerType SlowTower::getTowerType() const {
 
 // ================== TowerManager Implementation ==================
 
-TowerManager::TowerManager() {}
+TowerManager::TowerManager(){
+}
 
 TowerManager::~TowerManager() {
     for (Tower* tower : towers) {
+        Detach(tower);
         delete tower;
     }
     towers.clear();
 }
 
 void TowerManager::addTower(Tower* tower) {
+
+    Attach(tower);
     towers.push_back(tower);
     std::cout << tower->getName() << " added.\n";
 }
 
 void TowerManager::removeTower(int index) {
+
     if (index < 0 || index >= static_cast<int>(towers.size())) {
         std::cout << "Invalid tower index.\n";
         return;
     }
     std::cout << towers[index]->getName() << " removed.\n";
+
+    Detach(towers[index]);
     delete towers[index];
     towers.erase(towers.begin() + index);
 }
 
 
-void TowerManager::updateTowers(CritterManager& critterManager, int cellSize) {
+void TowerManager::updateTowers( int cellSize) {
     // Get the list of critters from the CritterManager.
-    std::vector<CritterLogic*>& critters = critterManager.getCritters();
-
     // Iterate over all towers.
-    for (Tower* tower : towers) {
-        // Convert the tower's range (in grid cells) to pixels.
-        float towerRangePixels = tower->getRange() * cellSize;
-        Vector2 towerPos = tower->getPosition();
-
-        // Find the closest critter within range.
-        CritterLogic* targetCritter = nullptr;
-        float minDistance = towerRangePixels;
-        for (CritterLogic* critter : critters) {
-            // Convert critter grid position to pixel position.
-            Vector2 critterPos = {
-                critter->getX() * (float)cellSize + cellSize / 2.0f,
-                critter->getY() * (float)cellSize + cellSize / 2.0f
-            };
-            float dx = towerPos.x - critterPos.x;
-            float dy = towerPos.y - critterPos.y;
-            float distance = sqrt(dx * dx + dy * dy);
-            if (distance <= towerRangePixels && distance < minDistance) {
-                targetCritter = critter;
-                minDistance = distance;
-            }
-        }
-
-        // If a critter is in range and the tower is ready to shoot, fire a bullet.
-        if (targetCritter && tower->readyToShoot()) {
-            Vector2 targetPos = {
-                targetCritter->getX() * (float)cellSize + cellSize / 2.0f,
-                targetCritter->getY() * (float)cellSize + cellSize / 2.0f
-            };
-            tower->shootAt(targetPos);
-            tower->resetCooldown();
-        }
-
-        // Update bullets for this tower and check for collisions.
-        // Note: We need to modify the bullets; so we get a non-const reference.
-        std::vector<Bullet>& bullets = const_cast<std::vector<Bullet>&>(tower->getBullets());
-        for (Bullet& bullet : bullets) {
-            if (bullet.active) {
-                // Bullet position is updated in tower->updateBullets(), but we can check collision here.
-                for (CritterLogic* critter : critters) {
-                    Vector2 critterPos = {
-                        critter->getX() * (float)cellSize + cellSize / 2.0f,
-                        critter->getY() * (float)cellSize + cellSize / 2.0f
-                    };
-                    float dx = bullet.position.x - critterPos.x;
-                    float dy = bullet.position.y - critterPos.y;
-                    float distance = sqrt(dx * dx + dy * dy);
-
-                    if (distance < 5.0f) { // collision threshold in pixels
-                        critter->minusHealth(bullet.damage);
-                        if (critter->isDead()) {
-
-                            auto it = std::find(critters.begin(), critters.end(), critter);
-                            critterManager.removeCritter(it);
-                        }
-                        bullet.active = false;
-                        // (Optional) Check if critter is dead and remove it.
-                    }
-                }
-            }
-        }
-        // Finally, update bullet positions (which also advances the cooldown internally).
-        tower->updateBullets();
-    }
+    Notify();
 }
 
 void TowerManager::upgradeTower(int index) {
@@ -258,6 +273,7 @@ int TowerManager::sellTower(int index) {
         return 0;
     }
     int sellValue = towers[index]->sell();
+    Detach(towers[index]);
     delete towers[index];
     towers.erase(towers.begin() + index);
     return sellValue;

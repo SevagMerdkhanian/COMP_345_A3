@@ -1,6 +1,7 @@
 #include "mapLogic.h"
 #include <vector>
 
+
 MapLogic::MapLogic() {}
 
 MapLogic::MapLogic(int width, int height) : width(width), height(height) {
@@ -48,6 +49,9 @@ int MapLogic::getExitX() const {
 }
 int MapLogic::getExitY() const {
     return exitY;
+}
+void MapLogic::notifyObservers() {
+    Notify();
 }
 
 std::vector<std::vector<Cell>> MapLogic::getMap() { return map; }

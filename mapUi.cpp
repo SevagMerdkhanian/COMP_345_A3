@@ -1,4 +1,6 @@
 #include "mapUi.h"
+#include "mapLogic.h"
+
 #include "raylib.h"
 #include <sstream>
 #include <vector>
@@ -6,7 +8,9 @@
 #include <tuple>
 
 
-MapUI::MapUI(MapLogic &mapLogic) : mapLogic(mapLogic), cellSize(40), selectedTile(PATH), validationMessage("") {}
+MapUI::MapUI(MapLogic& mapLogic): mapLogic(mapLogic), observable(&mapLogic), cellSize(40), selectedTile(PATH), validationMessage("") {
+    observable->Attach(this); 
+}
 
 void MapUI::initUI()
 {
@@ -14,6 +18,16 @@ void MapUI::initUI()
     InitWindow(1024, 768, "Tower Defense - Map Editor");
     SetTargetFPS(60);
 }
+
+MapUI::~MapUI() {
+    if (observable) {
+        observable->Detach(this); // Remove observer before destruction
+    }
+};
+void MapUI::Update() {
+    drawUI();
+    updateUI();
+};
 
 void MapUI::updateUI()
 {
@@ -497,7 +511,7 @@ void MapUI::drawUIWithTowersCustom(TowerManager& towerManager, TowerUIManager& t
 
     // --- Update Tower Shooting with Critter Detection ---
     // Now call the overloaded updateTowers with the CritterManager reference.
-    towerManager.updateTowers(critterManager, cellSize);
+    towerManager.Notify();
 
     // --- Draw Towers ---
     towerUIManager.drawTowers(towerManager, cellSize);
@@ -519,17 +533,22 @@ void MapUI::drawUIWithTowersCustom(TowerManager& towerManager, TowerUIManager& t
     // --- Draw the Legend (Right-Aligned) ---
     const char* legendLines[] = {
         "Legend:",
-        "1 - Basic (Blue)",
-        "2 - Splash (Gray)",
-        "3 - Slow (Green)"
+        "1 - Basic (Purple)",
+        "2 - Splash (Orange)",
+        "3 - Slow (Blue)",
+        "L - Upgrade",
+        "D - Sell"
     };
     Color legendColors[] = {
-        DARKGRAY,
+        DARKGREEN,
+        DARKPURPLE,
+        ORANGE,
         BLUE,
-        LIGHTGRAY,
-        GREEN
+        DARKBLUE,
+        DARKBLUE
+        
     };
-    int numLines = 4;
+    int numLines = 6;
     int fontSize = 20;
     int spacing = 30;
     int margin = 10;
@@ -551,6 +570,7 @@ void MapUI::drawCritters(CritterManager &manager)
 
     std::string levelText = "Wave: " + std::to_string(wave);
     DrawText(levelText.c_str(), 10, 40, 20, DARKGRAY);
+    
     // Generate critters for the wave if none exist
     // if (manager.getCritters().empty()) {
     //    std::vector<CritterLogic> generatedCritters = CritterLogic::generateCritter(wave, numCritters, mapLogic);
@@ -558,6 +578,7 @@ void MapUI::drawCritters(CritterManager &manager)
     //        manager.addCritter(new CritterLogic(mapLogic, critter.getType(), wave));
     //    }
     //}
+
     if (manager.getCritters().empty() && manager.getCrittersSpawned() >= numCritters)
     {
         manager.resetWave();
@@ -575,10 +596,11 @@ void MapUI::drawCritters(CritterManager &manager)
         if (mapLogic.getCell((*it)->getX(), (*it)->getY()).type == EXIT)
         {
             auto critterIt = std::find(critters.begin(), critters.end(), *it);
-            if (critterIt != critters.end())
+            if (mapLogic.getCell((*it)->getX(), (*it)->getY()).type == EXIT) 
             {
-                manager.removeCritter(critterIt); // Correctly remove using iterator
-                it = critters.begin();            // Reset iterator after removal
+                CritterLogic* critterToRemove = *it;
+                it = critters.erase(it);
+                manager.removeCritter(critterToRemove);
                 continue;
             }
             // else {

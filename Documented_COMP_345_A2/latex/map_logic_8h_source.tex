@@ -1,0 +1,54 @@
+\doxysection{map\+Logic.\+h}
+\hypertarget{map_logic_8h_source}{}\label{map_logic_8h_source}\index{C:/Users/gevor/source/repos/COMP\_345\_A2/mapLogic.h@{C:/Users/gevor/source/repos/COMP\_345\_A2/mapLogic.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MAPLOGIC\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MAPLOGIC\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Observable.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{enum}\ CellType\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ PATH,}
+\DoxyCodeLine{00009\ \ \ \ \ SCENERY,}
+\DoxyCodeLine{00010\ \ \ \ \ ENTRY,}
+\DoxyCodeLine{00011\ \ \ \ \ EXIT}
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_cell}{Cell}}\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ CellType\ type;}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{bool}\ isEntry;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{bool}\ isExit;}
+\DoxyCodeLine{00018\ \};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }MapLogic:\ \textcolor{keyword}{public}\ Observable\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ MapLogic();}
+\DoxyCodeLine{00023\ \ \ \ \ MapLogic(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ setCell(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ CellType\ type);}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{struct_cell}{Cell}}\ getCell(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00027\ \ \ \ \ std::vector<std::vector<Cell>>\ getMap();}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ setEntry(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ setExit(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{int}\ getWidth()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{int}\ getHeight()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{int}\ getEntryX()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{int}\ getEntryY()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ getExitX()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{int}\ getExitY()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ notifyObservers();}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{int}\ width;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{int}\ height;}
+\DoxyCodeLine{00043\ \ \ \ \ std::vector<std::vector<Cell>>\ map;}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{int}\ entryX,\ entryY;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{int}\ exitX,\ exitY;}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MAPLOGIC\_H}}
+
+\end{DoxyCode}

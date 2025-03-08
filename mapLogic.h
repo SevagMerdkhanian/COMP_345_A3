@@ -2,6 +2,7 @@
 #define MAPLOGIC_H
 
 #include <vector>
+#include "ObservableVec.h"
 
 enum CellType {
     PATH,
@@ -16,7 +17,7 @@ struct Cell {
     bool isExit;
 };
 
-class MapLogic {
+class MapLogic: public ObservableVec {
 public:
     MapLogic();
     MapLogic(int width, int height);
@@ -34,6 +35,7 @@ public:
     int getEntryY() const;
     int getExitX() const;
     int getExitY() const;
+    void notifyObservers();
 
 private:
     int width;

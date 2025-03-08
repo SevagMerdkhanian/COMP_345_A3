@@ -1,0 +1,107 @@
+\doxysection{Splash\+Tower Class Reference}
+\hypertarget{class_splash_tower}{}\label{class_splash_tower}\index{SplashTower@{SplashTower}}
+Inheritance diagram for Splash\+Tower\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_splash_tower}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_splash_tower_a9c2ce83b96480f2a537cc1b88b026178}{attack}} () override
+\item 
+virtual Tower\+Type \mbox{\hyperlink{class_splash_tower_a153094803f85ec8e435f0e08e7dde07f}{get\+Tower\+Type}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_tower}{Tower}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Tower} (const std\+::string \&name, int cost, int refund\+Value, int range, int power, float rate\+Of\+Fire)
+\item 
+void \mbox{\hyperlink{class_tower_ac9c733be6a40ea824dc976a4f86fa5a4}{Update}} () override
+\item 
+void {\bfseries set\+Position} (Vector2 pos)
+\item 
+Vector2 {\bfseries get\+Position} () const
+\item 
+virtual void {\bfseries upgrade} ()
+\item 
+virtual int {\bfseries sell} () const
+\item 
+std\+::string {\bfseries get\+Name} () const
+\item 
+int {\bfseries get\+Level} () const
+\item 
+int {\bfseries get\+Cost} () const
+\item 
+int {\bfseries get\+Refund\+Value} () const
+\item 
+int {\bfseries get\+Range} () const
+\item 
+int {\bfseries get\+Power} () const
+\item 
+float {\bfseries get\+Rate\+Of\+Fire} () const
+\item 
+void {\bfseries shoot\+At} (Vector2 target)
+\item 
+void {\bfseries update\+Bullets} ()
+\item 
+bool {\bfseries ready\+To\+Shoot} () const
+\item 
+void {\bfseries reset\+Cooldown} ()
+\item 
+const std\+::vector$<$ \mbox{\hyperlink{struct_bullet}{Bullet}} $>$ \& {\bfseries get\+Bullets} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_tower}{Tower}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string {\bfseries name}
+\item 
+int {\bfseries level}
+\item 
+int {\bfseries cost}
+\item 
+int {\bfseries refund\+Value}
+\item 
+int {\bfseries range}
+\item 
+int {\bfseries power}
+\item 
+float {\bfseries rate\+Of\+Fire}
+\item 
+Vector2 {\bfseries position}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{struct_bullet}{Bullet}} $>$ {\bfseries bullets}
+\item 
+float {\bfseries cooldown\+Timer}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_splash_tower_a9c2ce83b96480f2a537cc1b88b026178}\index{SplashTower@{SplashTower}!attack@{attack}}
+\index{attack@{attack}!SplashTower@{SplashTower}}
+\doxysubsubsection{\texorpdfstring{attack()}{attack()}}
+{\footnotesize\ttfamily \label{class_splash_tower_a9c2ce83b96480f2a537cc1b88b026178} 
+void Splash\+Tower\+::attack (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_tower}{Tower}}.
+
+\Hypertarget{class_splash_tower_a153094803f85ec8e435f0e08e7dde07f}\index{SplashTower@{SplashTower}!getTowerType@{getTowerType}}
+\index{getTowerType@{getTowerType}!SplashTower@{SplashTower}}
+\doxysubsubsection{\texorpdfstring{getTowerType()}{getTowerType()}}
+{\footnotesize\ttfamily \label{class_splash_tower_a153094803f85ec8e435f0e08e7dde07f} 
+Tower\+Type Splash\+Tower\+::get\+Tower\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_tower}{Tower}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/gevor/source/repos/\+COMP\+\_\+345\+\_\+\+A2/tower\+Logic.\+h\item 
+C\+:/\+Users/gevor/source/repos/\+COMP\+\_\+345\+\_\+\+A2/tower\+Logic.\+cpp\end{DoxyCompactItemize}

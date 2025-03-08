@@ -88,8 +88,12 @@ std::vector<CritterLogic> CritterLogic::generateCritter(int wave, int numOfCritt
     return critters;
 }
 
+void CritterLogic::Update() {
+    move();
+}
+
 //movement
-void CritterLogic::move(MapLogic& mapLogic) {
+void CritterLogic::move() {
     std::vector<std::vector<Cell>> map = mapLogic.getMap();
     std::vector<std::pair<int, int>> possibleMoves;
 
@@ -181,21 +185,26 @@ CritterManager::~CritterManager() {
 }
 
 void CritterManager::addCritter(CritterLogic* critter) {
+    Attach(critter);
     critters.push_back(critter);
     std::cout << critter->critterTypeToString(critter->getType()) << " added.\n";
 }
 
 
-void CritterManager::removeCritter(std::vector<CritterLogic*>::iterator it) {
+void CritterManager::removeCritter(CritterLogic* critter) {
+    // Find the critter in the vector
+    Detach(critter);
+    auto it = std::find(critters.begin(), critters.end(), critter);
     if (it == critters.end()) {
         std::cout << "Critter not found.\n";
         return;
     }
 
     std::cout << (*it)->critterTypeToString((*it)->getType()) << " removed.\n";
-    delete* it;  // Free memory
-    critters.erase(it);  // Remove from vector
+    delete* it;        // Free the allocated memory
+    critters.erase(it); // Remove the element from the vector
 }
+
 
 int CritterManager::getCrittersSpawned() {
     return crittersSpawned;
@@ -209,18 +218,16 @@ void CritterManager::update(MapLogic& mapLogic, int wave, int numCritters) {
             std::vector<CritterLogic> generatedCritter = CritterLogic::generateCritter(wave, 1, mapLogic);
             addCritter(new CritterLogic(mapLogic, generatedCritter[0].getType(), wave));
 
-            crittersSpawned++;      // Increase spawn count
-            spawnFrameCounter = 0;  // Reset the frame counter
+            crittersSpawned++;      
+            spawnFrameCounter = 0;  
         }
         else {
-            spawnFrameCounter++;  // Increment frame counter
+            spawnFrameCounter++;  
         }
     }
 
     // Update existing critters
-    for (auto& critter : critters) {
-        critter->move(mapLogic);
-    }
+    Notify();
 }
 
 void CritterManager::resetWave() {
