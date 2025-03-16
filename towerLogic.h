@@ -41,12 +41,13 @@ protected:
     float rateOfFire;  // Shots per second
     Vector2 position; // Tower position
     std::vector<Bullet> bullets;
+    TowerTargetingStrategy* targetingStrategy;
 
 
     // New: cooldown timer (in seconds) to control rate of fire.
     float cooldownTimer;
 public:
-    Tower(const std::string& name, int cost, int refundValue, int range, int power, float rateOfFire);
+    Tower(const std::string& name, int cost, int refundValue, int range, int power, float rateOfFire, TowerTargetingStrategy* strategy);
     virtual ~Tower();
 
     void Update() override;
@@ -100,7 +101,7 @@ class BasicTower : public Tower, public TowerTargetingStrategy {
 public:
     BasicTower();
     virtual void attack() override;
-    CritterLogic* GetTargetCritter(std::vector<Critter*>& critters, int minDistance);
+    CritterLogic* GetTargetCritter(std::vector<CritterLogic*>& critters, int cellSize, int towerRangePixels, Vector2 towerPos);
     virtual TowerType getTowerType() const override;
 };
 //nearest critter to exit point
@@ -108,23 +109,23 @@ class SplashTower : public Tower, public TowerTargetingStrategy {
 public:
     SplashTower();
     virtual void attack() override;
-    CritterLogic* GetTargetCritter(std::vector<Critter*>& critters, int minDistance);
+    CritterLogic* GetTargetCritter(std::vector<CritterLogic*>& critters, int cellSize, int towerRangePixels, Vector2 towerPos);
     virtual TowerType getTowerType() const override;
 };
-//strongest critter
+//weakest critter
 class SlowTower : public Tower, public TowerTargetingStrategy {
 public:
     SlowTower();
     virtual void attack() override;
-    CritterLogic* GetTargetCritter(std::vector<Critter*>& critters, int minDistance);
+    CritterLogic* GetTargetCritter(std::vector<CritterLogic*>& critters, int cellSize, int towerRangePixels, Vector2 towerPos);
     virtual TowerType getTowerType() const override;
 };
-//weakest critter
+//strongest critter
 class SniperTower : public Tower, public TowerTargetingStrategy {
 public:
     SniperTower();
     virtual void attack() override;
-    CritterLogic* GetTargetCritter(std::vector<Critter*>& critters, int minDistance);
+    CritterLogic* GetTargetCritter(std::vector<CritterLogic*>& critters, int cellSize, int towerRangePixels, Vector2 towerPos);
     virtual TowerType getTowerType() const override;
 };
 

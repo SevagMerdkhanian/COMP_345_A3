@@ -10,6 +10,7 @@ void TowerUI::drawTower(const Tower* tower, int cellSize) {
     case TowerType::BASIC:   color = PURPLE; break;
     case TowerType::SPLASH:  color = ORANGE; break;
     case TowerType::SLOW:    color = SKYBLUE; break;
+    case TowerType::SNIPER:    color = DARKGREEN; break;
     default:                 color = GRAY; break;
     }
 
