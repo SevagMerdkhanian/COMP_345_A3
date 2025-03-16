@@ -11,7 +11,8 @@
 enum class TowerType {
     BASIC,
     SPLASH,
-    SLOW
+    SLOW,
+    SNIPER
 };
 
 // --------------------
@@ -108,6 +109,13 @@ public:
 class SlowTower : public Tower {
 public:
     SlowTower();
+    virtual void attack() override;
+    virtual TowerType getTowerType() const override;
+};
+
+class SniperTower : public Tower {
+public:
+    SniperTower();
     virtual void attack() override;
     virtual TowerType getTowerType() const override;
 };

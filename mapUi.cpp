@@ -407,6 +407,7 @@ void MapUI::drawUIWithTowersCustom(TowerManager& towerManager, TowerUIManager& t
     if (IsKeyPressed(KEY_ONE)) { currentTowerType = TowerType::BASIC; }
     if (IsKeyPressed(KEY_TWO)) { currentTowerType = TowerType::SPLASH; }
     if (IsKeyPressed(KEY_THREE)) { currentTowerType = TowerType::SLOW; }
+    if (IsKeyPressed(KEY_FOUR)) { currentTowerType = TowerType::SNIPER; }
 
     BeginDrawing();
     ClearBackground(RAYWHITE);
@@ -469,6 +470,7 @@ void MapUI::drawUIWithTowersCustom(TowerManager& towerManager, TowerUIManager& t
                         case TowerType::BASIC: newTower = new BasicTower(); break;
                         case TowerType::SPLASH: newTower = new SplashTower(); break;
                         case TowerType::SLOW: newTower = new SlowTower(); break;
+                        case TowerType::SNIPER: newTower = new SniperTower(); break;
                         default: newTower = new BasicTower(); break;
                         }
                         if (playerMoney >= newTower->getCost()) {

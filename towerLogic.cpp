@@ -218,6 +218,21 @@ void SlowTower::attack() {
 TowerType SlowTower::getTowerType() const {
     return TowerType::SLOW;
 }
+SniperTower::SniperTower() : Tower("Sniper Tower", 110, 70, 5, 20, 0.7f) {}
+
+void SniperTower::attack() {
+    float cooldownPeriod = 1.0f / getRateOfFire();
+    if (cooldownTimer >= cooldownPeriod) {
+        Vector2 target = { getPosition().x + 100, getPosition().y };
+        shootAt(target);
+        cooldownTimer = 0.0f;
+        std::cout << name << " attacks and slows enemies, power: " << power << "\n";
+    }
+}
+
+TowerType SniperTower::getTowerType() const {
+    return TowerType::SNIPER;
+}
 
 // ================== TowerManager Implementation ==================
 
