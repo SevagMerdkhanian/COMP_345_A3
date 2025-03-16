@@ -42,6 +42,9 @@
     <ClCompile Include="ObservableVec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TowerTargetingStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="towerLogic.h">

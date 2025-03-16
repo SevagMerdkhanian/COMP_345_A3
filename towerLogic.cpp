@@ -183,6 +183,12 @@ void BasicTower::attack() {
     }
 }
 
+CritterLogic* BasicTower::GetTargetCritter(std::vector<Critter*>& critters, int minDistance)
+{
+    return nullptr;
+}
+
+
 TowerType BasicTower::getTowerType() const {
     return TowerType::BASIC;
 }
@@ -197,6 +203,11 @@ void SplashTower::attack() {
         cooldownTimer = 0.0f;
         std::cout << name << " attacks with splash damage, power: " << power << "\n";
     }
+}
+
+CritterLogic* SplashTower::GetTargetCritter(std::vector<Critter*>& critters, int minDistance)
+{
+    return nullptr;
 }
 
 TowerType SplashTower::getTowerType() const {
@@ -215,6 +226,11 @@ void SlowTower::attack() {
     }
 }
 
+CritterLogic* SlowTower::GetTargetCritter(std::vector<Critter*>& critters, int minDistance)
+{
+    return nullptr;
+}
+
 TowerType SlowTower::getTowerType() const {
     return TowerType::SLOW;
 }
@@ -228,6 +244,11 @@ void SniperTower::attack() {
         cooldownTimer = 0.0f;
         std::cout << name << " attacks and slows enemies, power: " << power << "\n";
     }
+}
+
+CritterLogic* SniperTower::GetTargetCritter(std::vector<Critter*>& critters, int minDistance)
+{
+    return nullptr;
 }
 
 TowerType SniperTower::getTowerType() const {

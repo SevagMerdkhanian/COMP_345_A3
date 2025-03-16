@@ -6,6 +6,8 @@
 #include <vector>
 #include "raylib.h"  // For Vector2
 #include "critterLogic.h"
+#include "TowerTargetingStrategy.h"
+
 
 // Enum to distinguish tower types
 enum class TowerType {
@@ -92,31 +94,37 @@ public:
 // --------------------
 // Derived Towers
 // --------------------
-class BasicTower : public Tower {
+
+//nearest critter to the tower strategy
+class BasicTower : public Tower, public TowerTargetingStrategy {
 public:
     BasicTower();
     virtual void attack() override;
+    CritterLogic* GetTargetCritter(std::vector<Critter*>& critters, int minDistance);
     virtual TowerType getTowerType() const override;
 };
-
-class SplashTower : public Tower {
+//nearest critter to exit point
+class SplashTower : public Tower, public TowerTargetingStrategy {
 public:
     SplashTower();
     virtual void attack() override;
+    CritterLogic* GetTargetCritter(std::vector<Critter*>& critters, int minDistance);
     virtual TowerType getTowerType() const override;
 };
-
-class SlowTower : public Tower {
+//strongest critter
+class SlowTower : public Tower, public TowerTargetingStrategy {
 public:
     SlowTower();
     virtual void attack() override;
+    CritterLogic* GetTargetCritter(std::vector<Critter*>& critters, int minDistance);
     virtual TowerType getTowerType() const override;
 };
-
-class SniperTower : public Tower {
+//weakest critter
+class SniperTower : public Tower, public TowerTargetingStrategy {
 public:
     SniperTower();
     virtual void attack() override;
+    CritterLogic* GetTargetCritter(std::vector<Critter*>& critters, int minDistance);
     virtual TowerType getTowerType() const override;
 };
 
