@@ -324,12 +324,35 @@ void SniperTower::attack() {
     }
 }
 //SlowTower shoots the strongest (most health) critter
-
 CritterLogic* SniperTower::GetTargetCritter(std::vector<CritterLogic*>& critters, int cellSize, int towerRangePixels, Vector2 towerPos)
 {
-    return nullptr;
+    CritterLogic* strongestCritter = nullptr;
+    float maxHealth = std::numeric_limits<float>::lowest(); // Start with a very low health value
+
+    for (CritterLogic* critter : critters) {
+        // Convert critter grid position to pixel position.
+        Vector2 critterPos = {
+            critter->getX() * (float)cellSize + cellSize / 2.0f,
+            critter->getY() * (float)cellSize + cellSize / 2.0f
+        };
+
+        // Calculate distance from tower to critter
+        float dx = towerPos.x - critterPos.x;
+        float dy = towerPos.y - critterPos.y;
+        float distance = sqrt(dx * dx + dy * dy);
+
+        // Check if the critter is within the tower's range
+        if (distance <= towerRangePixels) {
+            float critterHealth = critter->getHealth(); // Assuming getHealth() exists
+            if (critterHealth > maxHealth) {
+                strongestCritter = critter;
+                maxHealth = critterHealth;
+            }
+        }
+    }
+
+    return strongestCritter;
 }
-//SniperTower shoots the strongest critter
 
 
 TowerType SniperTower::getTowerType() const {
