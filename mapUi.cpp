@@ -309,6 +309,7 @@ void DrawRightAlignedTextBlock(const char *lines[], const Color colors[], int nu
     }
 }
 
+
 void MapUI::drawUI()
 {
     BeginDrawing();
@@ -349,7 +350,7 @@ void MapUI::drawUI()
     DrawText(tileText.str().c_str(), 10, 10, 20, DARKGRAY);
 
     const char* legendLines[] = {
-        "Legend:",
+        "Map Legend:",
         "1 - Path (Blue)",
         "2 - Scenery (Gray)",
         "3 - Entry (Green)",
@@ -534,23 +535,39 @@ void MapUI::drawUIWithTowersCustom(TowerManager& towerManager, TowerUIManager& t
 
     // --- Draw the Legend (Right-Aligned) ---
     const char* legendLines[] = {
-        "Legend:",
-        "1 - Basic (Purple)",
-        "2 - Splash (Orange)",
-        "3 - Slow (Blue)",
-        "L - Upgrade",
-        "D - Sell"
+     "Tower Legend:",
+     "1 - Basic (Purple)",
+     "2 - Splash (Orange)",
+     "3 - Slow (Light Blue)",
+     "4 - Sniper (Dark Green)",
+     "L - Upgrade",
+     "D - Sell",
+     " ",
+     " ",
+     " ",
+     "Critter Legend: ",
+     "Tanky (Orange)",
+     "Speedy (Magenta)",
+     "Strong (Dark purple)"
     };
     Color legendColors[] = {
         DARKGREEN,
-        DARKPURPLE,
+        PURPLE,
         ORANGE,
-        BLUE,
-        DARKBLUE,
-        DARKBLUE
+        SKYBLUE,
+        DARKGREEN,
+        BLACK,
+        BLACK,
+        BLACK,
+        BLACK,
+        BLACK,
+        DARKGREEN,
+        ORANGE,
+        MAGENTA,
+        DARKPURPLE
         
     };
-    int numLines = 6;
+    int numLines = 14;
     int fontSize = 20;
     int spacing = 30;
     int margin = 10;
@@ -619,12 +636,11 @@ void MapUI::drawCritters(CritterManager &manager)
             critterColor = ORANGE;
             break;
         case CritterType::SPEEDY:
-            critterColor = GREEN;
+            critterColor = MAGENTA;
             break;
         case CritterType::STRONG:
-            critterColor = RED;
+            critterColor = DARKPURPLE;
             break;
-        case CritterType::BALANCED:
         default:
             critterColor = BLACK;
             break;

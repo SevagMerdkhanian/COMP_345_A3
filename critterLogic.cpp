@@ -18,7 +18,7 @@ CritterLogic::CritterLogic(MapLogic& mapLogic, CritterType type, int lvl) : mapL
         moveInterval = 90;
         break;
     case CritterType::SPEEDY:
-        hit_points = maxHealth = 40 + (lvl * 5);
+        hit_points = maxHealth = 30 + (lvl * 5);
         strength = 4 + (lvl * 2);
         //speed = 3 + (lvl / 2);
         speed = 1;
@@ -33,7 +33,6 @@ CritterLogic::CritterLogic(MapLogic& mapLogic, CritterType type, int lvl) : mapL
         reward = 12 + (lvl * 5);
         moveInterval = 60;
         break;
-    case CritterType::BALANCED:
     default:
         hit_points = maxHealth = 50 + (lvl * 10);
         strength = 5 + (lvl * 2);
