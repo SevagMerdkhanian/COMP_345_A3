@@ -41,6 +41,7 @@ public:
     int getMaxHealth() const;
     int getX();
     int getY();
+    int getDistanceToExit() const;
 
     void Update() override;
     void minusHealth(int minusHealth);

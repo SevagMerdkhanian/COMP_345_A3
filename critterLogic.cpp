@@ -11,14 +11,14 @@ CritterLogic::CritterLogic(MapLogic& mapLogic, CritterType type, int lvl) : mapL
 
     switch (type) {
     case CritterType::TANKY:
-        hit_points,maxHealth = 100 + (lvl * 15);
+        hit_points = maxHealth = 100 + (lvl * 15);
         strength = 5 + (lvl * 2);
         speed = 1;
         reward = 15 + (lvl * 6);
         moveInterval = 90;
         break;
     case CritterType::SPEEDY:
-        hit_points, maxHealth = 40 + (lvl * 5);
+        hit_points = maxHealth = 30 + (lvl * 5);
         strength = 4 + (lvl * 2);
         //speed = 3 + (lvl / 2);
         speed = 1;
@@ -26,16 +26,15 @@ CritterLogic::CritterLogic(MapLogic& mapLogic, CritterType type, int lvl) : mapL
         moveInterval = 30;
         break;
     case CritterType::STRONG:
-        hit_points, maxHealth = 50 + (lvl * 10);
+        hit_points = maxHealth = 50 + (lvl * 10);
         strength = 7 + (lvl * 2);
         //speed = 2 + (lvl / 2);
         speed = 1;
         reward = 12 + (lvl * 5);
         moveInterval = 60;
         break;
-    case CritterType::BALANCED:
     default:
-        hit_points, maxHealth = 50 + (lvl * 10);
+        hit_points = maxHealth = 50 + (lvl * 10);
         strength = 5 + (lvl * 2);
         //speed = 2 + (lvl / 2);
         speed = 1;
@@ -62,6 +61,11 @@ int CritterLogic::getX() {
 }
 int CritterLogic::getY() {
     return y;
+}
+int CritterLogic::getDistanceToExit() const {
+    int exitX = mapLogic.getExitX();
+    int exitY = mapLogic.getExitY();
+    return std::abs(x - exitX) + std::abs(y - exitY);
 }
 
 

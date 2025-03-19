@@ -56,12 +56,6 @@ int main(void)
     // Main game loop
     while (!WindowShouldClose()) {
         
-
-        //// Draw the UI
-        //mapUI.drawUI();
-        //// Update the UI
-        //mapUI.updateUI();
-        //mapUI.Update();
         mapLogic.notifyObservers();
     }
     // Initialize UI
