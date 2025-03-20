@@ -93,7 +93,7 @@ public:
 };
 
 // --------------------
-// Derived Towers
+// Derived Towers                               IM TOUCHING THESE, REMEMBER
 // --------------------
 
 //nearest critter to the tower strategy
