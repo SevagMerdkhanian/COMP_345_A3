@@ -20,6 +20,7 @@ enum CritterType
     STRONG,
     BALANCED
 };
+
 //Critter Superclass
 class CritterLogic : public ObserverVec {
 public:
@@ -87,13 +88,6 @@ class BasicCritter : public CritterLogic
 public:
     BasicCritter(MapLogic& mapLogic, int level);
     void render(Vector2 position) override;
-};
-
-//Factory class
-class CritterFactory
-{
-public:
-    static CritterLogic* createCritter(CritterType type, MapLogic& mapLogic, int level);
 };
 
 //Modified CritterManager

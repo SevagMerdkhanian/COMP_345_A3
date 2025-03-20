@@ -597,8 +597,6 @@ void MapUI::drawCritters(CritterManager &manager)
     auto &critters = manager.getCritters();
     for (auto it = critters.begin(); it != critters.end();)
     {
-        
-        //(*it)->move(mapLogic);  // Moves only when frameCounter allows
 
         // Check if critter reached the exit
         if (mapLogic.getCell((*it)->getX(), (*it)->getY()).type == EXIT)

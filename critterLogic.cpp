@@ -1,4 +1,5 @@
 #include "critterLogic.h"
+#include "CritterFactory.h"
 #include <memory>
 
 //Superclass
@@ -201,22 +202,6 @@ void BasicCritter::render(Vector2 position) {
 
     DrawRectangle(healthBarPos.x, healthBarPos.y, barWidth, 4, GREEN);            // Health amount
     DrawRectangleLines(healthBarPos.x, healthBarPos.y, healthBarWidth, 4, BLACK); // Border
-}
-
-//Critter Factory
-CritterLogic* CritterFactory::createCritter(CritterType type, MapLogic& mapLogic, int level) {
-    switch (type) {
-        case SPEEDY:
-            return new SpeedyCritter(mapLogic, level);
-        case TANKY:
-            return new TankyCritter(mapLogic, level);
-        case STRONG:
-            return new StrongCritter(mapLogic, level);
-        case BALANCED:
-            return new BasicCritter(mapLogic, level);
-        default:
-            return nullptr;
-    }
 }
 
 //Critter Manager Modified

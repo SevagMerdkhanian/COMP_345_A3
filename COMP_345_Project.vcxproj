@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CritterFactory.cpp" />
     <ClCompile Include="critterLogic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mapLogic.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="towerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CritterFactory.h" />
     <ClInclude Include="mapLogic.h" />
     <ClInclude Include="mapUi.h" />
     <ClInclude Include="ObservableVec.h" />
