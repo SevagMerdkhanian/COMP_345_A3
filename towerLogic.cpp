@@ -20,13 +20,13 @@ Tower::Tower(const std::string& name, int cost, int refundValue, int range, int 
 Tower::~Tower() {}
 
 void Tower::Update() {
-    std::vector<CritterLogic*> critters = TowerManager::critterManager->getCritters();
+    auto critters = TowerManager::critterManager->getCritters();
     int cellSize = 40;
 
     float towerRangePixels = getRange() * cellSize;
     Vector2 towerPos = getPosition();
     //Use targetingStrategy to find the appropriate target
-    CritterLogic* targetCritter = targetingStrategy->GetTargetCritter(critters,cellSize, towerRangePixels,towerPos);
+    CritterLogic* targetCritter = targetingStrategy->GetTargetCritter(critters, cellSize, towerRangePixels,towerPos);
 
     // If a critter is in range and the tower is ready to shoot, fire a bullet.
     if (targetCritter && readyToShoot()) {
@@ -44,7 +44,8 @@ void Tower::Update() {
     for (Bullet& bullet : bullets) {
         if (bullet.active) {
             // Bullet position is updated in tower->updateBullets(), but we can check collision here.
-            for (CritterLogic* critter : critters) {
+            for (auto& critter : critters) {
+
                 Vector2 critterPos = {
                     critter->getX() * (float)cellSize + cellSize / 2.0f,
                     critter->getY() * (float)cellSize + cellSize / 2.0f
@@ -174,7 +175,7 @@ CritterLogic* BasicTower::GetTargetCritter(std::vector<CritterLogic*>& critters,
     float minDistance = towerRangePixels;
 
 
-    for (CritterLogic* critter : critters) {
+    for (auto& critter : critters) {
         // Convert critter grid position to pixel position.
         Vector2 critterPos = {
             critter->getX() * (float)cellSize + cellSize / 2.0f,
@@ -221,7 +222,7 @@ CritterLogic* SplashTower::GetTargetCritter(std::vector<CritterLogic*>& critters
         std::vector<CritterLogic*> crittersInRange;
 
         // Convert critter grid position to pixel position.
-        for (CritterLogic* critter : critters) {
+        for (auto& critter : critters) {
             Vector2 critterPos = {
                 critter->getX() * (float)cellSize + cellSize / 2.0f,
                 critter->getY() * (float)cellSize + cellSize / 2.0f
@@ -231,7 +232,7 @@ CritterLogic* SplashTower::GetTargetCritter(std::vector<CritterLogic*>& critters
             float distance = sqrt(dx * dx + dy * dy);
 
             if (distance <= towerRangePixels) {
-                crittersInRange.push_back(critter);
+                crittersInRange.push_back(std::move(critter));
 
                 // Track the nearest critter to the tower
                 if (distance < minDistanceToTower) {
@@ -250,7 +251,7 @@ CritterLogic* SplashTower::GetTargetCritter(std::vector<CritterLogic*>& critters
         CritterLogic* closestToExit = nullptr;
         int minDistanceToExit = INT_MAX;
 
-        for (CritterLogic* critter : crittersInRange) {
+        for (auto& critter : crittersInRange) {
             int distanceToExit = critter->getDistanceToExit();
             if (distanceToExit < minDistanceToExit) {
                 closestToExit = critter;
@@ -283,7 +284,7 @@ CritterLogic* SlowTower::GetTargetCritter(std::vector<CritterLogic*>& critters, 
     CritterLogic* weakestCritter = nullptr;
     float minHealth = std::numeric_limits<float>::max(); // Start with a very high health value
 
-    for (CritterLogic* critter : critters) {
+    for (auto& critter : critters) {
         // Convert critter grid position to pixel position.
         Vector2 critterPos = {
             critter->getX() * (float)cellSize + cellSize / 2.0f,
@@ -329,7 +330,7 @@ CritterLogic* SniperTower::GetTargetCritter(std::vector<CritterLogic*>& critters
     CritterLogic* strongestCritter = nullptr;
     float maxHealth = std::numeric_limits<float>::lowest(); // Start with a very low health value
 
-    for (CritterLogic* critter : critters) {
+    for (auto& critter : critters) {
         // Convert critter grid position to pixel position.
         Vector2 critterPos = {
             critter->getX() * (float)cellSize + cellSize / 2.0f,

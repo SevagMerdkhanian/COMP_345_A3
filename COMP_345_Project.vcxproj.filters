@@ -45,6 +45,9 @@
     <ClCompile Include="TowerTargetingStrategy.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="CritterFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="towerLogic.h">
@@ -66,6 +69,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObservableVec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CritterFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

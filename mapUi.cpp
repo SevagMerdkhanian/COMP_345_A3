@@ -584,32 +584,19 @@ void MapUI::drawUIWithTowersCustom(TowerManager& towerManager, TowerUIManager& t
 // Critter Drawing
 void MapUI::drawCritters(CritterManager &manager)
 {
-    int wave = 1;
-    int numCritters = 5;
-
-    std::string levelText = "Wave: " + std::to_string(wave);
+    std::string levelText = "Wave: " + std::to_string(manager.getCurrentWave());
     DrawText(levelText.c_str(), 10, 40, 20, DARKGRAY);
-    
-    // Generate critters for the wave if none exist
-    // if (manager.getCritters().empty()) {
-    //    std::vector<CritterLogic> generatedCritters = CritterLogic::generateCritter(wave, numCritters, mapLogic);
-    //    for (auto& critter : generatedCritters) {
-    //        manager.addCritter(new CritterLogic(mapLogic, critter.getType(), wave));
-    //    }
+
+    //if (manager.getCritters().empty() && manager.getCrittersSpawned() >= numCritters)
+    //{
+    //    manager.resetWave();
     //}
 
-    if (manager.getCritters().empty() && manager.getCrittersSpawned() >= numCritters)
-    {
-        manager.resetWave();
-    }
-
-    manager.update(mapLogic, wave, numCritters); // Spawns critters at regular intervals
+    manager.update(mapLogic); // Spawns critters at regular intervals
 
     auto &critters = manager.getCritters();
     for (auto it = critters.begin(); it != critters.end();)
     {
-        
-        //(*it)->move(mapLogic);  // Moves only when frameCounter allows
 
         // Check if critter reached the exit
         if (mapLogic.getCell((*it)->getX(), (*it)->getY()).type == EXIT)
@@ -622,45 +609,10 @@ void MapUI::drawCritters(CritterManager &manager)
                 manager.removeCritter(critterToRemove);
                 continue;
             }
-            // else {
-            //     ++it;  // Move to the next element if not found
-            // }
         }
 
         Vector2 position = {((float)(*it)->getX() +0.5)* cellSize, ((float)(*it)->getY() +0.5) * cellSize};
-        Color critterColor;
-
-        switch ((*it)->getType())
-        {
-        case CritterType::TANKY:
-            critterColor = ORANGE;
-            break;
-        case CritterType::SPEEDY:
-            critterColor = MAGENTA;
-            break;
-        case CritterType::STRONG:
-            critterColor = DARKPURPLE;
-            break;
-        default:
-            critterColor = BLACK;
-            break;
-        }
-
-        Vector2 v1 = { position.x, position.y - 10 - (10.0f / 3.0f) }; // position.y - 40/3
-        Vector2 v2 = { position.x - 10, position.y + 10 - (10.0f / 3.0f) }; // position.y + 20/3
-        Vector2 v3 = { position.x + 10, position.y + 10 - (10.0f / 3.0f) }; // position.y + 20/3
-
-        DrawTriangle(v1, v2, v3, critterColor);
-
-        // Draw Health Bar
-        float healthBarWidth = 20.0f; // Max width of health bar
-        float healthPercentage = (float)(*it)->getHealth() / (*it)->getMaxHealth();
-        float barWidth = healthBarWidth * healthPercentage; // Scale based on health
-
-        Vector2 healthBarPos = {position.x - (healthBarWidth / 2), position.y - 10}; // Above critter
-
-        DrawRectangle(healthBarPos.x, healthBarPos.y, barWidth, 4, GREEN);            // Health amount
-        DrawRectangleLines(healthBarPos.x, healthBarPos.y, healthBarWidth, 4, BLACK); // Border
+        (*it)->render(position);
 
         ++it;
     }
