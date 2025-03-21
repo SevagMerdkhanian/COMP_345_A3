@@ -4,13 +4,19 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "raylib.h"  // For Vector2
-#include "critterLogic.h"
-#include "TowerTargetingStrategy.h"
+#include "raylib.h"             // For Vector2
+#include "critterLogic.h"       // For CritterLogic
+#include "TowerTargetingStrategy.h" // For TowerTargetingStrategy
 
+// Assume ObserverVec and ObservableVec are defined elsewhere.
+// For example:
+// class ObserverVec { public: virtual void Update() {} };
+// class ObservableVec { /* ... */ };
 
-// Enum to distinguish tower types
-enum class TowerType {
+// --------------------
+// Tower Type Enumeration (plain enum for UI compatibility)
+// --------------------
+enum TowerType {
     BASIC,
     SPLASH,
     SLOW,
@@ -18,7 +24,7 @@ enum class TowerType {
 };
 
 // --------------------
-// Bullet structure
+// Bullet Structure
 // --------------------
 struct Bullet {
     Vector2 position;
@@ -28,7 +34,7 @@ struct Bullet {
 };
 
 // --------------------
-// Tower Base Class
+// Tower Base Class (Component)
 // --------------------
 class Tower : public ObserverVec {
 protected:
@@ -36,127 +42,152 @@ protected:
     int level;
     int cost;
     int refundValue;
-    int range;      // In grid cells
+    int range;         // In grid cells
     int power;
     float rateOfFire;  // Shots per second
-    Vector2 position; // Tower position
+    Vector2 position;  // Tower position
     std::vector<Bullet> bullets;
     TowerTargetingStrategy* targetingStrategy;
-
-
-    // New: cooldown timer (in seconds) to control rate of fire.
-    float cooldownTimer;
+    float cooldownTimer;  // In seconds
 public:
     Tower(const std::string& name, int cost, int refundValue, int range, int power, float rateOfFire, TowerTargetingStrategy* strategy);
     virtual ~Tower();
 
-    void Update() override;
-    
-    // Position setters/getters
-    void setPosition(Vector2 pos);
-    Vector2 getPosition() const;
-    
-    // Pure virtual functions for behavior
+    // Observer method: made concrete.
+    virtual void Update();
+
+    // Position accessors.
+    virtual void setPosition(Vector2 pos);
+    virtual Vector2 getPosition() const;
+
+    // Pure virtual behavior.
     virtual void attack() = 0;
     virtual TowerType getTowerType() const = 0;
 
-    // Upgrade and sell methods
+    // Upgrade and sell.
     virtual void upgrade();
     virtual int sell() const;
 
-    // Getters for common attributes
-    std::string getName() const;
-    int getLevel() const;
-    int getCost() const;
-    int getRefundValue() const;
-    int getRange() const;
-    int getPower() const;
-    float getRateOfFire() const;
-
-
-    
-
+    // Common attribute getters.
+    virtual std::string getName() const;
+    virtual int getLevel() const;
+    virtual int getCost() const;
+    virtual int getRefundValue() const;
+    virtual int getRange() const;
+    virtual int getPower() const;
+    virtual float getRateOfFire() const;
 
     // ---------- Bullet Functionality ----------
-    // Spawn a bullet aimed at a target position.
-    void shootAt(Vector2 target);
-    // Update all bullets (move them, mark inactive if needed) and update cooldownTimer.
-    void updateBullets();
-    // Access bullets for drawing.
-    // Returns true if the tower is ready to shoot based on its rateOfFire.
-    bool readyToShoot() const;
-    // Resets the internal cooldown timer.
-    void resetCooldown();
+    virtual void shootAt(Vector2 target);
+    virtual void updateBullets();
+    virtual bool readyToShoot() const;
+    virtual void resetCooldown();
 
-
-    const std::vector<Bullet>& getBullets() const;
+    // Pure virtual: must return bullets.
+    virtual const std::vector<Bullet>& getBullets() const = 0;
 };
 
 // --------------------
-// Derived Towers                               IM TOUCHING THESE, REMEMBER
+// Concrete Component: BasicTower
+// (Contains the core tower functionality.)
 // --------------------
-
-//nearest critter to the tower strategy
-class BasicTower : public Tower, public TowerTargetingStrategy {
+class BasicTower : public Tower {
 public:
     BasicTower();
+    virtual ~BasicTower() {}
+
     virtual void attack() override;
-    CritterLogic* GetTargetCritter(std::vector<CritterLogic*>& critters, int cellSize, int towerRangePixels, Vector2 towerPos);
     virtual TowerType getTowerType() const override;
-};
-//nearest critter to exit point
-class SplashTower : public Tower, public TowerTargetingStrategy {
-public:
-    SplashTower();
-    virtual void attack() override;
-    CritterLogic* GetTargetCritter(std::vector<CritterLogic*>& critters, int cellSize, int towerRangePixels, Vector2 towerPos);
-    virtual TowerType getTowerType() const override;
-};
-//weakest critter
-class SlowTower : public Tower, public TowerTargetingStrategy {
-public:
-    SlowTower();
-    virtual void attack() override;
-    CritterLogic* GetTargetCritter(std::vector<CritterLogic*>& critters, int cellSize, int towerRangePixels, Vector2 towerPos);
-    virtual TowerType getTowerType() const override;
-};
-//strongest critter
-class SniperTower : public Tower, public TowerTargetingStrategy {
-public:
-    SniperTower();
-    virtual void attack() override;
-    CritterLogic* GetTargetCritter(std::vector<CritterLogic*>& critters, int cellSize, int towerRangePixels, Vector2 towerPos);
-    virtual TowerType getTowerType() const override;
+    virtual const std::vector<Bullet>& getBullets() const override;
 };
 
 // --------------------
-// TowerManager Class
+// Decorator Base Class: TowerDecorator
+// (Wraps a Tower pointer and delegates calls by default.)
+// --------------------
+class TowerDecorator : public Tower {
+protected:
+    Tower* innerTower;
+public:
+    TowerDecorator(Tower* tower);
+    virtual ~TowerDecorator();
+
+    virtual void Update() override;
+    virtual void setPosition(Vector2 pos) override;
+    virtual Vector2 getPosition() const override;
+    virtual void attack() override;
+    virtual void upgrade() override;
+    virtual int sell() const override;
+    virtual std::string getName() const override;
+    virtual int getLevel() const override;
+    virtual int getCost() const override;
+    virtual int getRefundValue() const override;
+    virtual int getRange() const override;
+    virtual int getPower() const override;
+    virtual float getRateOfFire() const override;
+    virtual void shootAt(Vector2 target) override;
+    virtual void updateBullets() override;
+    virtual bool readyToShoot() const override;
+    virtual void resetCooldown() override;
+    virtual const std::vector<Bullet>& getBullets() const override;
+};
+
+// --------------------
+// Concrete Decorators
+// --------------------
+// Provide both parameterized and default constructors.
+class SplashDecorator : public TowerDecorator {
+public:
+    SplashDecorator(Tower* tower);
+    SplashDecorator();  // default constructor: wraps a new BasicTower
+    virtual void attack() override;
+    virtual TowerType getTowerType() const override;
+};
+
+class SlowDecorator : public TowerDecorator {
+public:
+    SlowDecorator(Tower* tower);
+    SlowDecorator(); // default constructor: wraps a new BasicTower
+    virtual void attack() override;
+    virtual TowerType getTowerType() const override;
+};
+
+class SniperDecorator : public TowerDecorator {
+public:
+    SniperDecorator(Tower* tower);
+    SniperDecorator(); // default constructor: wraps a new BasicTower
+    virtual void attack() override;
+    virtual TowerType getTowerType() const override;
+};
+
+// For backward compatibility with UI code.
+typedef SplashDecorator SplashTower;
+typedef SlowDecorator SlowTower;
+typedef SniperDecorator SniperTower;
+
+// --------------------
+// TowerManager Class (Observer Subject)
 // --------------------
 class TowerManager : public ObservableVec {
 private:
     std::vector<Tower*> towers;
 public:
-
     static CritterManager* critterManager;
     TowerManager();
-    ~TowerManager();
+    virtual ~TowerManager();
 
-    // Add or remove towers
-    void addTower(Tower* tower); // Attach
-    void removeTower(int index); // Detach
+    // Observer methods.
+    void Attach(Tower* tower);
+    void Detach(Tower* tower);
+    void Notify();
 
-    // Call attack and update bullets on all towers
-    void updateTowers(int cellSize); // Notify
-
-    // Upgrade or sell a specific tower
+    // Tower management.
+    void addTower(Tower* tower);
+    void removeTower(int index);
+    void updateTowers(int cellSize);
     void upgradeTower(int index);
     int sellTower(int index);
-
-    // Getter to access the towers (for UI rendering)
     const std::vector<Tower*>& getTowers() const;
-    
-
-    // Debug: print info about towers
     void printTowers() const;
 };
 
